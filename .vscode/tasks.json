@@ -5,26 +5,38 @@
             "type": "cppbuild",
             "label": "C/C++: aarch64-linux-gnu-g++ build active file",
             "command": "/usr/bin/aarch64-linux-gnu-g++",
+
             "args": [
+                // Compiler flags
                 "-fdiagnostics-color=always",
                 "-g",
-                // Add these so the compiler sees them
                 "-I/usr/include/opencv4",
+
+                // Source file(s)
+                "${file}",
+
+                // Output binary
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+
+                // Now list libraries LAST
                 "-lopencv_core",
                 "-lopencv_imgproc",
                 "-lopencv_highgui",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "-lopencv_imgcodecs",
+                "-lopencv_videoio"
             ],
+
             "options": {
+                // Ensure we build in the same directory as the file
                 "cwd": "${fileDirname}"
             },
-            "problemMatcher": [ "$gcc" ],
+            "problemMatcher": ["$gcc"],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "detail": "Build capture_frames with OpenCV libs"
         }
     ]
 }

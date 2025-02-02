@@ -24,19 +24,23 @@
 #include <opencv2/video/video.hpp>
 #include <opencv2/videoio/videoio.hpp>
 #include <sstream>
+#include <iostream>
 
 int main(int argc, char** argv) {
-    // Create a VideoCapture object to capture frames from the camera
-    cv::VideoCapture cap;
-    cap.open("/dev/video0", cv::CAP_V4L2);  // Uses V4L2 backend directly
+    // Attempt to load the V4L2 kernel module (optional, you can do this in a script)
+    system("sudo modprobe bcm2835-v4l2");
 
-    // Optionally set camera resolution (change as needed)
+    // Create VideoCapture object
+    cv::VideoCapture cap;
+    cap.open("/dev/video0", cv::CAP_V4L2);
+
+    // Optionally set camera resolution
     cap.set(cv::CAP_PROP_FRAME_WIDTH, 640);
     cap.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
 
-    // Check if the camera is opened successfully
     if (!cap.isOpened()) {
         std::cerr << "Error: Could not open camera via V4L2." << std::endl;
+        std::cerr << "Check that bcm2835-v4l2 is loaded and /dev/video0 exists." << std::endl;
         return -1;
     }
 
@@ -44,10 +48,6 @@ int main(int argc, char** argv) {
     std::string folder_name = "frames";
     std::string command = "mkdir -p " + folder_name;
     system(command.c_str());
-
-    // Window to show the live footage
-    cv::namedWindow("Camera", cv::WINDOW_AUTOSIZE);
-
     int frame_count = 0;
     
     while (true) {
@@ -58,10 +58,6 @@ int main(int argc, char** argv) {
             std::cerr << "Warning: blank frame grabbed! Exiting..." << std::endl;
             break;
         }
-
-        // Display the frame
-        cv::imshow("Camera", frame);
-
         // Save the frame to the folder
         std::ostringstream filename;
         filename << folder_name << "/frame_" << frame_count++ << ".jpg";

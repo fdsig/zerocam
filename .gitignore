@@ -1,11 +1,19 @@
 # Prerequisites
 *.d
 
+# data
+*.jpg
+*.png
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.mp3
+*.wav
+*.ogg
+*.flac
+
 # Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
 
 # Precompiled Headers
 *.gch
