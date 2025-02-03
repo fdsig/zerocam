@@ -12,19 +12,13 @@
 // the 'q' key.
 
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/videoio/videoio.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgcodecs/imgcodecs.hpp>
-#include <opencv2/video/video.hpp>
-#include <opencv2/videoio/videoio.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgcodecs/imgcodecs.hpp>
-#include <opencv2/video/video.hpp>
-#include <opencv2/videoio/videoio.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/videoio.hpp>
+
 #include <sstream>
 #include <iostream>
+#include <cstdlib>
 
 int main(int argc, char** argv) {
     // Attempt to load the V4L2 kernel module (optional, you can do this in a script)
@@ -40,7 +34,6 @@ int main(int argc, char** argv) {
 
     if (!cap.isOpened()) {
         std::cerr << "Error: Could not open camera via V4L2." << std::endl;
-        std::cerr << "Check that bcm2835-v4l2 is loaded and /dev/video0 exists." << std::endl;
         return -1;
     }
 
@@ -58,14 +51,14 @@ int main(int argc, char** argv) {
             std::cerr << "Warning: blank frame grabbed! Exiting..." << std::endl;
             break;
         }
-        // Save the frame to the folder
+
+        // Save the frame
         std::ostringstream filename;
         filename << folder_name << "/frame_" << frame_count++ << ".jpg";
         cv::imwrite(filename.str(), frame);
 
         // Exit the loop if the user presses 'q'
-        char c = (char)cv::waitKey(1);
-        if (c == 'q') {
+        if ((char)cv::waitKey(1) == 'q') {
             break;
         }
     }
