@@ -23,3 +23,9 @@ the objective is to stream to private network using socket protocol which can be
 11. run `cd zerocam` to navigate to the repository directory
 
 Here we have developed in two parts using a raspberry pi 4 as a dev enviroment -- much faster for compiling and testing on the same os and then deploy to rasberry pi zero w.
+
+
+to do:
+
+- [ ] fix cavideo on raspberry pi zero w vs raspberry pi 4
+- [ ] 
