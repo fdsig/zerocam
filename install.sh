@@ -11,4 +11,8 @@ sudo apt-get update && sudo apt-get install -y \
     cmake \
     pkg-config \
     libopencv-dev \
-    v4l-utils
+    v4l-utils \
+    vim
+    git
+    gh
+    
